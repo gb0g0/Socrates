@@ -82,7 +82,9 @@ const applyForAirdrop = new WizardScene(
         await ctx.scene.enter("apply for airdrop");
       } else if (ctx.callbackQuery.data == "Next") {
         ctx.answerCbQuery();
-        ctx.reply("Please provide your X (fka Twitter) username:\n\n⚠Ps: without @");
+        ctx.reply(
+          "Please provide your X (fka Twitter) username:\n\n⚠Ps: without @"
+        );
         ctx.wizard.cursor = 1;
         return ctx.wizard.next();
       }
@@ -393,7 +395,27 @@ const applyForAirdrop = new WizardScene(
 );
 
 // const menu = new WizardScene("menu options", async (ctx) => {
-
+//   await ctx.reply(
+//     "Step 1: \n\nClick on the Link below to follow *Socrates* on X (fka Twitter). \n\nFollow Socrates: 👇 \nhttps://twitter.com/Socrates_xyz",
+//     {
+//       reply_markup: {
+//         inline_keyboard: [
+//           [
+//             {
+//               text: "Done ✅",
+//               callback_data: "Next",
+//             },
+//             {
+//               text: "Restart 🔁",
+//               callback_data: "Restart",
+//             },
+//           ],
+//         ],
+//       },
+//     }
+//   );
+//   //   ctx.wizard.cursor = 0;
+//   //   return ctx.wizard.next();
 // });
 
 session({
@@ -411,10 +433,31 @@ stage.register(applyForAirdrop);
 // menus.register(menu);
 
 bot.command("start", async (ctx) => {
-  ctx.scene.enter("apply for airdrop");
+  const chat_id = 1808813567;
+  const { data, error } = await supabase
+    .from("users")
+    .select()
+    .eq("chat_id", chat_id);
+  if (error) {
+    console.log(error);
+    await ctx.scene.enter("apply for airdrop");
+  }
+
+  if (data.length == 0) {
+    await ctx.scene.enter("apply for airdrop");
+  } else {
+    // ctx.reply("Wait i'm still building");
+    await ctx.reply(
+      "We will verifiy your information and get back to you \n\nVIP 1 Airdrop completed ✅: \n• Enter the drop telegram bot ✅ \n• Follow Socrates social media ✅ \n• Register and Submit your wallet ✅"
+    );
+    await ctx.reply(
+      "🚨 Proceed to participate to other Task 🚨 \n\n\n💰 VIP 2 Airdrop Task: \n\nBenefits: VIP 2 Airdrop users can win $10 - $20 daily by answering Questions on Socrates site and have a greater percentage of the airdrop rewards than VIP 1 \n\n✍ How To Participate:\n\n• Navigate to your wallet on your Socrates account \n• Scroll down and Find SBT \n• Mint the SBT Pen worth $10 \n• Answer Questions on Socrates website \n\n\n💰 VIP 3 Airdrop Task: \n\nVIP 3 Airdrop users can win $20 - $30 daily by answering Questions on Socrates site and have a greater percentage of the airdrop rewards than VIP 2\n\n✍ How To Participate: \n\n• Navigate to your wallet on your Socrates account \n• Scroll down and Find SBT\n• Mint the SBT Pen worth $100\n• Answer Questions on Socrates website \n\n\n💰 VIP 4 Airdrop Task: \n\n• Navigate to your wallet on your Socrates account \n• Scroll down and Find SBT\n• Mint the SBT Pen worth $300\n• Answer Questions on Socrates website \n\n\n💰 Airdrop Distribution Priority 💰: \n\nVIP 4: 40% of Airdrop Supply \nVIP 3: 30% of Airdop Supply \nVIP 2: 20% of Airdop Supply \nVIP 1: 10% of Airdop Supply \n\n\n🔁Referral program: \n\nYou can use your referral link on the Socrates application to bring new users to the platform, referral rewards are shown below: \n\nEach Referral For VIP 1 User: \n• 0.1$ per Referral\n• 0.5$ per paid Referral \n\nEach Referral For VIP 3 User: \n• 0.3$ per Referral \n• 1.5$ per paid Referral \n\nEach Referral For VIP 4 User: \n• 0.4$ per Referral \n• 2$ per paid Referral \n\n\n🚨 Airdroppers with higher VIP Levels and Referrals will be prioritize in the distribution"
+    );
+  }
 });
 bot.command("menu", async (ctx) => {
-  ctx.reply("Wait i'm still building");
+  //   ctx.scene.enter("menu options");
+  //   ctx.reply("Wait i'm still building");
 });
 
 bot.launch();
