@@ -429,6 +429,7 @@ bot.use(stage.middleware());
 stage.register(applyForAirdrop);
 
 // const menus = new Stage([menu], { sessionName: "chatSession" });
+
 // bot.use(menus.middleware());
 // menus.register(menu);
 
