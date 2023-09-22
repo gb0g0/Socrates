@@ -433,7 +433,7 @@ stage.register(applyForAirdrop);
 // menus.register(menu);
 
 bot.command("start", async (ctx) => {
-  const chat_id = 1808813567;
+  const chat_id = ctx.chat.id;
   const { data, error } = await supabase
     .from("users")
     .select()
